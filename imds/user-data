@@ -23,11 +23,9 @@ fs_setup:
 # this creates /etc/fstab and then calls `mount -a`, but is suboptimal
 mounts:
 - [ /dev/sda2, /mnt ]
-- [ /dev/sda1, /mnt/efi ]
+- [ /dev/sda1, /mnt/efi, auto, X-mount.mkdir ]
 
 runcmd:
-# for some reason the above `mounts` don't do the job
-- systemctl start mnt-efi.mount
 # basic install + some packages
 - pacstrap /mnt base linux sudo vim openssh dbus-broker tmux
 - systemctl enable --root /mnt systemd-networkd systemd-resolved sshd dbus-broker
