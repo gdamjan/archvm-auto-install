@@ -2,7 +2,7 @@
 
 Automated installation of Archlinux in a QEMU/KVM virtual-machine.
 
-An example script to use the archiso and its [cloudinit](https://cloudinit.readthedocs.io/en/latest/)
+An example script to use the archiso and its [cloud-init](https://cloud-init.io/)
 support to automatically create and install an Archlinux VM, from scratch.
 
 Requirements on the host are: `qemu` (and UEFI support files),
@@ -16,11 +16,11 @@ Requirements on the host are: `qemu` (and UEFI support files),
 
 ## HOW
 
-The archiso live image supports cloudinit. We use the fake "IMDS" support in cloudinit,
+The archiso live image supports cloud-init. We use the fake "IMDS" support in cloud-init,
 made to work with qemu. A `http.server` is started from the imds directory, and the host url
-(`http://10.0.2.2:8000/`) is configured as a cloudinit IMDS source (see `-smbios …`).
+(`http://10.0.2.2:8000/`) is configured as a cloud-init IMDS source (see `-smbios …`).
 
-As the live iso boots, cloudinit reads the `imds/user-data` file and configures both the live
+As the live iso boots, cloud-init reads the `imds/user-data` file and configures both the live
 environment, but also sets up partitions and filesystems, and bootstraps Arch on the permanent disk storage.
 
 ## Connect to the VM
@@ -36,6 +36,6 @@ gvncviewer ::1:5900
 
 ## Created files - if you remove them, they'll be recreated from scratch
 
-- `archlinux-x86_64.iso` - archiso, delete if you want it re-downloaded
+- `archlinux-x86_64.iso` - [archiso](https://wiki.archlinux.org/title/Archiso), delete if you want it re-downloaded
 - `arch-vm.img` - VM qcow2 image (delete these 2 to install from scratch)
 - `OVMF_VARS.fd` - UEFI config storage (delete these 2 to install from scratch)
