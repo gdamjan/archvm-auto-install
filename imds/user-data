@@ -28,19 +28,24 @@ mounts:
 runcmd:
 # for some reason the above `mounts` don't do the job
 - systemctl start mnt-efi.mount
+# basic install + some packages
 - pacstrap /mnt base linux sudo vim openssh dbus-broker tmux
 - systemctl enable --root /mnt systemd-networkd systemd-resolved sshd dbus-broker
 - systemctl enable --root /mnt --global dbus-broker
-- echo -en 'a\na\n' | passwd -R /mnt
+# config files
 - curl http://10.0.2.2:8000/en.network -O --output-dir /mnt/etc/systemd/network/
 - curl http://10.0.2.2:8000/systemd-initrd.conf -O --output-dir /mnt/etc/mkinitcpio.conf.d/
 - curl http://10.0.2.2:8000/debug-cmdline.conf -O --output-dir /mnt/etc/cmdline.d/ --create-dirs
+# booting, default to UKI images
 - mkdir -p /mnt/efi/EFI/Linux
-# default to UKI images
 - sed -e '/^#default_uki=/s/^#//' -e '/^default_image=/s/^/#/' -i /mnt/etc/mkinitcpio.d/linux.preset
 - sed -e '/^#fallback_uki=/s/^#//' -e '/^fallback_image=/s/^/#/' -i /mnt/etc/mkinitcpio.d/linux.preset
 - arch-chroot /mnt mkinitcpio -p linux
 - arch-chroot /mnt bootctl install
+# clean-up
+- yes | pacman --sysroot /mnt -Scc
 - rm /mnt/etc/resolv.conf
+# setup root user
+- echo -en 'a\na\n' | passwd -R /mnt
 - cp -r /root/.ssh -T /mnt/root/.ssh
 - umount -R /mnt && reboot
