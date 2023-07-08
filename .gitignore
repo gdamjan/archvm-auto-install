@@ -1,3 +1,4 @@
 /arch-vm.img
 /OVMF_VARS.fd
 /archlinux-x86_64.iso
+/run
