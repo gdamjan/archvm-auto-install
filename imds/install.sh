@@ -24,7 +24,7 @@ mount ${SYSDISK}2 $SYSROOT --mkdir
 mount ${SYSDISK}1 $SYSROOT/efi --mkdir
 
 # basic install + some packages
-pacstrap $SYSROOT base linux sudo vim openssh dbus-broker tmux
+pacstrap $SYSROOT base mkinitcpio linux sudo vim openssh dbus-broker tmux
 systemctl enable --root $SYSROOT systemd-networkd systemd-resolved sshd dbus-broker
 systemctl enable --root $SYSROOT --global dbus-broker
 
