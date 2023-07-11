@@ -1,5 +1,7 @@
 #! /bin/bash
-
+#
+# IMDS_URL is passed by the caller
+#
 set -euo pipefail
 
 # TODO: automatically detect the QEMU disk
