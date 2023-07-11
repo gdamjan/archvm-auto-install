@@ -12,8 +12,8 @@ SYSDISK=/dev/sda
 # 512M EFI System partiton with vfat
 # the rest is Linux root (x86-64) ext4
 sfdisk -X gpt $SYSDISK <<EOF
-,512M,U
-,+,4F68BCE3-E8CD-4DB1-96E7-FBCAF984B709
+size=512M, type=uefi
+size=+, type=4F68BCE3-E8CD-4DB1-96E7-FBCAF984B709
 EOF
 
 mkfs.ext4 ${SYSDISK}2
