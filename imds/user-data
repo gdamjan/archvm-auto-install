@@ -4,46 +4,5 @@ users:
     ssh_authorized_keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJeHvI5nYLPpBaMTRny9XFouOZSrwkYGSUWFd8i1OP1Q
 
-# disk setup has some presumptions, like the disk being /dev/sda
-# TODO: this would be better done on the host as part of qemu-img create
-disk_setup:
-  /dev/sda:
-    table_type: 'gpt'
-    layout:
-    - [5, "C12A7328-F81F-11D2-BA4B-00A0C93EC93B"] # EFI System
-    - [95, "4F68BCE3-E8CD-4DB1-96E7-FBCAF984B709"] # Linux root (x86-64), 2G min
-
-fs_setup:
-- filesystem: vfat
-  device: /dev/sda1
-- label: root
-  filesystem: ext4
-  device: /dev/sda2
-
-# this creates /etc/fstab and then calls `mount -a`, but is suboptimal
-mounts:
-- [ /dev/sda2, /mnt ]
-- [ /dev/sda1, /mnt/efi, auto, X-mount.mkdir ]
-
 runcmd:
-# basic install + some packages
-- pacstrap /mnt base linux sudo vim openssh dbus-broker tmux
-- systemctl enable --root /mnt systemd-networkd systemd-resolved sshd dbus-broker
-- systemctl enable --root /mnt --global dbus-broker
-# config files
-- curl http://10.0.2.2:8000/en.network -O --output-dir /mnt/etc/systemd/network/
-- curl http://10.0.2.2:8000/systemd-initrd.conf -O --output-dir /mnt/etc/mkinitcpio.conf.d/
-- curl http://10.0.2.2:8000/debug-cmdline.conf -O --output-dir /mnt/etc/cmdline.d/ --create-dirs
-# booting, default to UKI images
-- mkdir -p /mnt/efi/EFI/Linux
-- sed -e '/^#default_uki=/s/^#//' -e '/^default_image=/s/^/#/' -i /mnt/etc/mkinitcpio.d/linux.preset
-- sed -e '/^#fallback_uki=/s/^#//' -e '/^fallback_image=/s/^/#/' -i /mnt/etc/mkinitcpio.d/linux.preset
-- arch-chroot /mnt mkinitcpio -p linux
-- arch-chroot /mnt bootctl install
-# clean-up
-- yes | pacman --sysroot /mnt -Scc
-- rm /mnt/etc/resolv.conf
-# setup root user
-- echo -en 'a\na\n' | passwd -R /mnt
-- cp -r /root/.ssh -T /mnt/root/.ssh
-- umount -R /mnt && reboot
+- curl http://10.0.2.2:8000/install.sh | IMDS_URL=http://10.0.2.2:8000 bash
