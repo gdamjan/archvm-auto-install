@@ -33,7 +33,7 @@ qemu-system-x86_64 \
   -drive if=pflash,format=raw,file=$VARS \
   -drive file=$IMG,format=qcow2 \
   -cdrom $ISO \
-  -smbios type=1,serial=ds="nocloud-net;s=$IMDS_URL" \
+  -smbios "type=1,serial=ds=nocloud-net;s=$IMDS_URL" \
   -device virtio-net-pci,netdev=net0 \
   -netdev user,id=net0,hostfwd=tcp::2222-:22 \
   -smp 2 -m 4G -machine type=q35,accel=kvm
