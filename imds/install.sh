@@ -4,9 +4,9 @@ set -euo pipefail
 
 IMDS_URL=`< /sys/firmware/qemu_fw_cfg/by_name/opt/imds-url/raw`
 
-# TODO: automatically detect the QEMU disk
+DISK_SERIAL=`< /sys/firmware/qemu_fw_cfg/by_name/opt/root-disk-serial/raw`
+SYSDISK=`lsblk -o PATH,SERIAL -n | grep $DISK_SERIAL | awk '{ print $1 }'`
 SYSROOT=/mnt/sysroot
-SYSDISK=/dev/sda
 
 # Prepare disk:
 # 512M EFI System partiton with vfat

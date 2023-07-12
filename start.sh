@@ -14,6 +14,8 @@ ISO=./run/archlinux-x86_64.iso
 IMG=./run/arch-vm.img
 VARS=./run/arch-vm.vars.fd
 
+DISK_SERIAL=deadbeef
+
 mkdir -p ./run
 if [ ! -f $ISO ]; then
   curl -o $ISO $ARCHISO_URL
@@ -31,10 +33,12 @@ python -m http.server --directory imds &
 qemu-system-x86_64 \
   -drive if=pflash,format=raw,readonly=on,file=$OVMF_BIOS \
   -drive if=pflash,format=raw,file=$VARS \
-  -drive file=$IMG,format=qcow2 \
+  -blockdev driver=qcow2,node-name=hd0,file.driver=file,file.filename=$IMG  \
+  -device virtio-blk-pci,drive=hd0,serial=$DISK_SERIAL \
   -cdrom $ISO \
   -smbios "type=1,serial=ds=nocloud-net;s=$IMDS_URL" \
   -fw_cfg "name=opt/imds-url,string=$IMDS_URL" \
+  -fw_cfg "name=opt/root-disk-serial,string=$DISK_SERIAL" \
   -device virtio-net-pci,netdev=net0 \
   -netdev user,id=net0,hostfwd=tcp::2222-:22 \
   -smp 2 -m 4G -machine type=q35,accel=kvm
