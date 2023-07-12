@@ -5,4 +5,4 @@ users:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJeHvI5nYLPpBaMTRny9XFouOZSrwkYGSUWFd8i1OP1Q
 
 runcmd:
-- curl http://10.0.2.2:8000/install.sh | IMDS_URL=http://10.0.2.2:8000 bash
+- curl http://10.0.2.2:8000/install.sh | bash

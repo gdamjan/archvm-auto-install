@@ -1,8 +1,8 @@
 #! /bin/bash
 #
-# IMDS_URL is passed by the caller
-#
 set -euo pipefail
+
+IMDS_URL=`< /sys/firmware/qemu_fw_cfg/by_name/opt/imds-url/raw`
 
 # TODO: automatically detect the QEMU disk
 SYSROOT=/mnt/sysroot
