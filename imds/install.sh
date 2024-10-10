@@ -9,19 +9,20 @@ SYSDISK=`lsblk -o PATH,SERIAL -n | grep $DISK_SERIAL | awk '{ print $1 }'`
 SYSROOT=/mnt/sysroot
 
 # Prepare disk:
-# 512M EFI System partiton with vfat
-# the rest is Linux root (x86-64) ext4
-sfdisk -X gpt $SYSDISK <<EOF
+# · 512M EFI System partiton with vfat
+# · the rest is Linux root ext4
+sfdisk $SYSDISK <<EOF
+label: gpt
 size=512M, type=uefi
-size=+, type=4F68BCE3-E8CD-4DB1-96E7-FBCAF984B709
+size=+, type="linux root (x86-64)"
 EOF
 
 mkfs.ext4 ${SYSDISK}2
 mkfs.vfat ${SYSDISK}1
 
 
-mount ${SYSDISK}2 $SYSROOT --mkdir
-mount ${SYSDISK}1 $SYSROOT/efi --mkdir
+mount --mkdir ${SYSDISK}2 $SYSROOT
+mount --mkdir ${SYSDISK}1 $SYSROOT/efi
 
 # basic install + some packages
 pacstrap $SYSROOT base mkinitcpio linux sudo vim openssh dbus-broker tmux
