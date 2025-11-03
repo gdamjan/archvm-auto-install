@@ -27,7 +27,7 @@ environment, but also sets up partitions and filesystems, and bootstraps Arch on
 
 Either ssh:
 ```
-ssh root@localhost -p 2222 -o "UserKnownHostsFile=/dev/null"
+ssh root@vsock%3
 ```
 or vnc:
 ```
