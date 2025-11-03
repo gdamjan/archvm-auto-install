@@ -54,4 +54,5 @@ echo '' > $SYSROOT/etc/machine-id
 
 # the end
 umount -R $SYSROOT
+eject -a on
 reboot
