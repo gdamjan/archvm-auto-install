@@ -42,7 +42,7 @@ arch-chroot $SYSROOT mkinitcpio -p linux
 arch-chroot $SYSROOT bootctl install
 
 # setup root user
-echo -en 'a\na\n' | passwd -R $SYSROOT
+echo -n 'a' | passwd --stdin --root $SYSROOT
 cp -r /root/.ssh -T $SYSROOT/root/.ssh
 
 # clean-up
