@@ -40,7 +40,8 @@ mkdir -p $SYSROOT/efi/EFI/Linux
 sed -e '/^#default_uki=/s/^#//' -e '/^default_image=/s/^/#/' -i $SYSROOT/etc/mkinitcpio.d/linux.preset
 sed -e '/^#fallback_uki=/s/^#//' -e '/^fallback_image=/s/^/#/' -i $SYSROOT/etc/mkinitcpio.d/linux.preset
 arch-chroot $SYSROOT mkinitcpio -p linux
-arch-chroot $SYSROOT bootctl install
+
+bootctl install --root=$SYSROOT --variables=yes
 
 # setup root user
 echo -n 'a' | passwd --stdin --root $SYSROOT
