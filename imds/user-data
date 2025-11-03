@@ -3,6 +3,7 @@ users:
   - name: root
     ssh_authorized_keys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJeHvI5nYLPpBaMTRny9XFouOZSrwkYGSUWFd8i1OP1Q
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDJ/4woXm+jmqmCsDHq1QM52cHzmHTEE8Av1NqXng4fd
 
 runcmd:
 - curl http://10.0.2.2:8000/install.sh | bash
