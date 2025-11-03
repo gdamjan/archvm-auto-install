@@ -33,6 +33,7 @@ systemctl enable --root $SYSROOT --global dbus-broker
 curl ${IMDS_URL}/en.network -O --output-dir $SYSROOT/etc/systemd/network/
 curl ${IMDS_URL}/systemd-initrd.conf -O --output-dir $SYSROOT/etc/mkinitcpio.conf.d/
 curl ${IMDS_URL}/debug-cmdline.conf -O --output-dir $SYSROOT/etc/cmdline.d/ --create-dirs
+curl ${IMDS_URL}/audit-cmdline.conf -O --output-dir $SYSROOT/etc/cmdline.d/ --create-dirs
 
 # booting, default to UKI images
 mkdir -p $SYSROOT/efi/EFI/Linux
