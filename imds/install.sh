@@ -48,6 +48,7 @@ cp -r /root/.ssh -T $SYSROOT/root/.ssh
 # clean-up
 yes | pacman --sysroot $SYSROOT -Scc || true
 rm $SYSROOT/etc/resolv.conf
+echo '' > $SYSROOT/etc/machine-id
 
 # the end
 umount -R $SYSROOT
