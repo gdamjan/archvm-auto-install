@@ -6,8 +6,8 @@ trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT
 ARCHISO_URL=https://geo.mirror.pkgbuild.com/iso/latest/archlinux-x86_64.iso
 
 OVMF_DIR=/usr/share/edk2-ovmf/x64
-OVMF_BIOS=$OVMF_DIR/OVMF_CODE.fd
-OVMF_VARS=$OVMF_DIR/OVMF_VARS.fd
+OVMF_BIOS=$OVMF_DIR/OVMF_CODE.4m.fd
+OVMF_VARS=$OVMF_DIR/OVMF_VARS.4m.fd
 
 IMDS_URL=http://10.0.2.2:8000/
 ISO=./run/archlinux-x86_64.iso
