@@ -33,16 +33,25 @@ python -m http.server --directory imds &
 
 qemu_options=(
   -cdrom "$ISO"
-  -drive if=pflash,format=raw,readonly=on,file=$OVMF_BIOS
-  -drive if=pflash,format=raw,file=$VARS
-  -blockdev driver=qcow2,node-name=hd0,file.driver=file,file.filename="$IMG"
-  -device virtio-blk-pci,drive=hd0,serial=$DISK_SERIAL
-  -smbios "type=1,serial=ds=nocloud-net;s=$IMDS_URL"
+  # these are read by cloud-init in the installer iso boot
+  -smbios "type=1,serial=ds=nocloud;s=$IMDS_URL"
+
+  # for the install.sh script to find the target drive
   -fw_cfg "name=opt/root-disk-serial,string=$DISK_SERIAL"
 
+  # UEFI/Bios
+  -drive if=pflash,format=raw,readonly=on,file=$OVMF_BIOS
+  -drive if=pflash,format=raw,file=$VARS
+
+  # Target drive
+  -blockdev driver=qcow2,node-name=hd0,file.driver=file,file.filename="$IMG"
+  -device virtio-blk-pci,drive=hd0,serial=$DISK_SERIAL
+
+  # https://www.freedesktop.org/software/systemd/man/latest/systemd.system-credentials.html
   -smbios type=11,value=io.systemd.credential:network.network.en=$'[Match]\nName=en*\n\n[Network]\nDHCP=yes\n'
   -smbios type=11,value=io.systemd.credential:ssh.authorized_keys.root="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDJ/4woXm+jmqmCsDHq1QM52cHzmHTEE8Av1NqXng4fd"
   -smbios type=11,value=io.systemd.credential:passwd.plaintext-password.root=a
+  -smbios type=11,value=io.systemd.credential:firstboot.timezone=UTC
 
   -device vhost-vsock-pci,guest-cid=$CID
   -device virtio-net-pci,netdev=net0
