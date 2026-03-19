@@ -39,7 +39,11 @@ qemu_options=(
   -device virtio-blk-pci,drive=hd0,serial=$DISK_SERIAL
   -smbios "type=1,serial=ds=nocloud-net;s=$IMDS_URL"
   -fw_cfg "name=opt/root-disk-serial,string=$DISK_SERIAL"
+
   -smbios type=11,value=io.systemd.credential:network.network.en=$'[Match]\nName=en*\n\n[Network]\nDHCP=yes\n'
+  -smbios type=11,value=io.systemd.credential:ssh.authorized_keys.root="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDJ/4woXm+jmqmCsDHq1QM52cHzmHTEE8Av1NqXng4fd"
+  -smbios type=11,value=io.systemd.credential:passwd.plaintext-password.root=a
+
   -device vhost-vsock-pci,guest-cid=$CID
   -device virtio-net-pci,netdev=net0
   -netdev user,id=net0,hostfwd=tcp::2222-:22

@@ -43,10 +43,6 @@ arch-chroot $SYSROOT mkinitcpio -p linux
 
 bootctl install --root=$SYSROOT --variables=yes
 
-# setup root user
-echo -n 'a' | passwd --stdin --root $SYSROOT
-cp -r /root/.ssh -T $SYSROOT/root/.ssh
-
 # clean-up
 yes | pacman --sysroot $SYSROOT -Scc || true
 rm $SYSROOT/etc/resolv.conf
