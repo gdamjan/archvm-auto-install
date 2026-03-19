@@ -41,12 +41,17 @@ sed -e '/^#default_uki=/s/^#//' -e '/^default_image=/s/^/#/' -i $SYSROOT/etc/mki
 sed -e '/^#fallback_uki=/s/^#//' -e '/^fallback_image=/s/^/#/' -i $SYSROOT/etc/mkinitcpio.d/linux.preset
 arch-chroot $SYSROOT mkinitcpio -p linux
 
-bootctl install --root=$SYSROOT --variables=yes
+# https://systemd.io/BUILDING_IMAGES/ recommends not to ship with /loader/random-seed
+bootctl install --root=$SYSROOT --variables=yes --random-seed=no
 
 # clean-up
 yes | pacman --sysroot $SYSROOT -Scc || true
+
+# let resolved/tmpfiles create the proper symlink
 rm $SYSROOT/etc/resolv.conf
-echo '' > $SYSROOT/etc/machine-id
+
+# https://www.freedesktop.org/software/systemd/man/latest/machine-id.html#First%20Boot%20Semantics
+echo 'uninitialized' > $SYSROOT/etc/machine-id
 
 # the end
 umount -R $SYSROOT
