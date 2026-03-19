@@ -57,10 +57,11 @@ qemu_options=(
   -device virtio-net-pci,netdev=net0
   -netdev user,id=net0
 
+  -device intel-iommu
   -cpu max
   -smp 2
   -m 4G
-  -machine type=q35,accel=kvm
+  -machine type=q35,accel=kvm,smm=on
 )
 
 qemu-system-x86_64 "${qemu_options[@]}"
