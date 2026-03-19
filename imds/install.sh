@@ -29,11 +29,11 @@ pacstrap $SYSROOT base mkinitcpio linux sudo vim openssh dbus-broker tmux less
 systemctl enable --root $SYSROOT systemd-networkd systemd-resolved sshd dbus-broker
 systemctl enable --root $SYSROOT --global dbus-broker
 
-# config files
-curl ${IMDS_URL}/en.network -O --output-dir $SYSROOT/etc/systemd/network/
-curl ${IMDS_URL}/systemd-initrd.conf -O --output-dir $SYSROOT/etc/mkinitcpio.conf.d/
-curl ${IMDS_URL}/debug-cmdline.conf -O --output-dir $SYSROOT/etc/cmdline.d/ --create-dirs
-curl ${IMDS_URL}/audit-cmdline.conf -O --output-dir $SYSROOT/etc/cmdline.d/ --create-dirs
+# customize the image (kernel and initramfs)
+echo "HOOKS+=('sd-encrypt')" > $SYSROOT/etc/mkinitcpio.conf.d/sd-encrypt.conf
+mkdir -p $SYSROOT/etc/cmdline.d/
+echo "audit=0" > $SYSROOT/etc/cmdline.d/audit.conf
+touch $SYSROOT/etc/vconsole.conf
 
 # booting, default to UKI images
 mkdir -p $SYSROOT/efi/EFI/Linux

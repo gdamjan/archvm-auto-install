@@ -39,6 +39,7 @@ qemu_options=(
   -device virtio-blk-pci,drive=hd0,serial=$DISK_SERIAL
   -smbios "type=1,serial=ds=nocloud-net;s=$IMDS_URL"
   -fw_cfg "name=opt/root-disk-serial,string=$DISK_SERIAL"
+  -smbios type=11,value=io.systemd.credential:network.network.en=$'[Match]\nName=en*\n\n[Network]\nDHCP=yes\n'
   -device vhost-vsock-pci,guest-cid=$CID
   -device virtio-net-pci,netdev=net0
   -netdev user,id=net0,hostfwd=tcp::2222-:22
