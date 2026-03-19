@@ -38,7 +38,6 @@ qemu_options=(
   -blockdev driver=qcow2,node-name=hd0,file.driver=file,file.filename="$IMG"
   -device virtio-blk-pci,drive=hd0,serial=$DISK_SERIAL
   -smbios "type=1,serial=ds=nocloud-net;s=$IMDS_URL"
-  -fw_cfg "name=opt/imds-url,string=$IMDS_URL"
   -fw_cfg "name=opt/root-disk-serial,string=$DISK_SERIAL"
   -device vhost-vsock-pci,guest-cid=$CID
   -device virtio-net-pci,netdev=net0
