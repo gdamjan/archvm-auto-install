@@ -55,7 +55,8 @@ qemu_options=(
 
   -device vhost-vsock-pci,guest-cid=$CID
   -device virtio-net-pci,netdev=net0
-  -netdev user,id=net0,hostfwd=tcp::2222-:22
+  -netdev user,id=net0
+
   -cpu max
   -smp 2
   -m 4G
