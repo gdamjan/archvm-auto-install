@@ -39,3 +39,11 @@ gvncviewer ::1:5900
 - `archlinux-x86_64.iso` - [archiso](https://wiki.archlinux.org/title/Archiso), delete if you want it re-downloaded
 - `arch-vm.img` - VM qcow2 image (delete these 2 to install from scratch)
 - `OVMF_VARS.fd` - UEFI config storage (delete these 2 to install from scratch)
+
+## References
+
+- https://cloudinit.readthedocs.io/en/latest/reference/datasources/nocloud.html
+- https://systemd.io/BUILDING_IMAGES/
+- https://systemd.io/CREDENTIALS/
+- https://www.freedesktop.org/software/systemd/man/latest/systemd.system-credentials.html
+- https://www.freedesktop.org/software/systemd/man/latest/systemd-firstboot.html
