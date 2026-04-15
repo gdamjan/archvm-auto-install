@@ -45,7 +45,7 @@ arch-chroot $SYSROOT mkinitcpio -p linux
 bootctl install --root=$SYSROOT --variables=yes --random-seed=no
 
 # clean-up
-yes | pacman --sysroot $SYSROOT -Scc || true
+pacman --sysroot $SYSROOT -Scc --noconfirm || true
 
 # let resolved/tmpfiles create the proper symlink
 rm $SYSROOT/etc/resolv.conf
